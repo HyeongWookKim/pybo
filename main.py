@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
+from domain.question import question_router
+
 
 app = FastAPI()
 
@@ -16,6 +18,5 @@ app.add_middleware(
     allow_headers = ['*']
 )
 
-@app.get('/hello')
-def hello():
-    return {'message': 'Hello, FastAPI!'}
+# app 객체에 router 객체 등록 (Router 객체를 생성해서 FastAPI app에 등록해야만 라우팅 기능이 동작함)
+app.include_router(question_router.router)

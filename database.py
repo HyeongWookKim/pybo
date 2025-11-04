@@ -1,3 +1,5 @@
+# import contextlib
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -15,3 +17,12 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine)
 
 Base = declarative_base() # 데이터베이스 모델 구성 시 사용
+
+# DB session 관리해주는 제너레이터 생성
+# @contextlib.contextmanager # 컨텍스트 매니저 객체를 반환 -> "with get_db() as db: ~~~" 사용 시에 적용
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
