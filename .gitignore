@@ -1,0 +1,9 @@
+# Python cache
+__pycache__/*
+
+# VSCode / JetBrains
+.vscode/*
+.idea/*
+
+# Environments
+.env
