@@ -22,9 +22,13 @@ class Answer(BaseModel):
     user: User | None
     question_id: int
     modify_date: datetime.datetime | None = None # 수정이 발생할 경우에만 그 값이 생성되므로 default 값으로 None 설정
+    voter: list[User] = [] # 추천인 항목을 Answer 스키마에 추가
 
 class AnswerUpdate(AnswerCreate):
     answer_id: int
 
 class AnswerDelete(BaseModel):
+    answer_id: int
+
+class AnswerVote(BaseModel):
     answer_id: int
