@@ -12,6 +12,7 @@ class Question(Base):
     create_date = Column(DateTime, nullable = False) # 질문 작성일시
     user_id = Column(Integer, ForeignKey('user.id'), nullable = True)
     user = relationship('User', backref = 'question_users') # 유저 모델에서 질문 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 유저에서 질문을 거꾸로 참조)
+    modify_date = Column(DateTime, nullable = True) # 수정일시는 수정이 발생한 경우에만 생성되므로 null 허용
 
 
 class Answer(Base):
@@ -24,11 +25,12 @@ class Answer(Base):
     question = relationship('Question', backref = 'answers') # 답변 모델에서 질문 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 질문에서 답변을 거꾸로 참조)
     user_id = Column(Integer, ForeignKey('user.id'), nullable = True)
     user = relationship('User', backref = 'answer_users') # 유저 모델에서 답변 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 유저에서 답변을 거꾸로 참조)
+    modify_date = Column(DateTime, nullable = True) # 수정일시는 수정이 발생한 경우에만 생성되므로 null 허용
 
 
 class User(Base):
     __tablename__ = 'user' # 모델에 의해 관리되는 테이블 명
-
+    
     id = Column(Integer, primary_key = True)
     username = Column(String, unique = True, nullable = False) # 중복 허용 X
     password = Column(String, nullable = False)

@@ -17,6 +17,7 @@ class Question(BaseModel):
     create_date: datetime.datetime
     answers: list[Answer] = [] # 모델에서 backref = 'answers'라고 설정해줬기 때문에, 반드시 answers라는 이름을 사용해야 함
     user: User | None
+    modify_date: datetime.datetime | None = None # 수정이 발생할 경우에만 그 값이 생성되므로 default 값으로 None 설정
 
 class QuestionCreate(BaseModel):
     subject: str
@@ -32,3 +33,9 @@ class QuestionCreate(BaseModel):
 class QuestionList(BaseModel):
     total: int = 0
     question_list: list[Question] = []
+
+class QuestionUpdate(QuestionCreate):
+    question_id: int
+
+class QuestionDelete(BaseModel):
+    question_id: int
