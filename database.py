@@ -1,6 +1,6 @@
 # import contextlib
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData # SQLite 데이터베이스에서 사용하는 인덱스 등의 제약 조건 이름은 MetaData 클래스를 사용하여 규칙을 정의
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -17,6 +17,15 @@ engine = create_engine(
 SessionLocal = sessionmaker(autocommit = False, autoflush = False, bind = engine)
 
 Base = declarative_base() # 데이터베이스 모델 구성 시 사용
+# 데이터베이스의 Primary Key, Unique Key, Index Key 등의 이름 규칙을 새롭게 정의
+naming_convention = {
+    'ix': 'ix_%(column_0_label)s',
+    'uq': 'uq_%(table_name)s_%(column_0_name)s',
+    'ck': 'ck_%(table_name)s_%(column_0_name)s',
+    'fk': 'fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s',
+    'pk': 'pk_%(table_name)s'
+}
+Base.metadata = MetaData(naming_convention = naming_convention)
 
 # DB session 관리해주는 제너레이터 생성
 # @contextlib.contextmanager # 컨텍스트 매니저 객체를 반환 -> "with get_db() as db: ~~~" 사용 시에 적용

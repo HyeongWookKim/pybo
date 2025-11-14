@@ -45,6 +45,7 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
+        render_as_batch=True, # 데이터베이스에서 default 값으로 명명되던 Primary Key, Unique Key 등의 제약조건 이름을 수동으로 설정
     )
 
     with context.begin_transaction():
@@ -66,7 +67,9 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, 
+            target_metadata=target_metadata,
+            render_as_batch=True, # 데이터베이스에서 default 값으로 명명되던 Primary Key, Unique Key 등의 제약조건 이름을 수동으로 설정
         )
 
         with context.begin_transaction():

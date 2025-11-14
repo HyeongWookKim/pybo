@@ -10,6 +10,8 @@ class Question(Base):
     subject = Column(String, nullable = False) # 질문 제목
     content = Column(Text, nullable = False) # 질문 내용
     create_date = Column(DateTime, nullable = False) # 질문 작성일시
+    user_id = Column(Integer, ForeignKey('user.id'), nullable = True)
+    user = relationship('User', backref = 'question_users') # 유저 모델에서 질문 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 유저에서 질문을 거꾸로 참조)
 
 
 class Answer(Base):
@@ -20,6 +22,8 @@ class Answer(Base):
     create_date = Column(DateTime, nullable = False) # 답변 작성일시
     question_id = Column(Integer, ForeignKey('question.id', ondelete = 'CASCADE')) # question 테이블의 id 컬럼 참조 (FK) / "CASCADE": 부모가 삭제되면 자식도 같이 삭제됨
     question = relationship('Question', backref = 'answers') # 답변 모델에서 질문 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 질문에서 답변을 거꾸로 참조)
+    user_id = Column(Integer, ForeignKey('user.id'), nullable = True)
+    user = relationship('User', backref = 'answer_users') # 유저 모델에서 답변 모델을 참조하기 위함 / backref: 역참조 설정 (즉, 유저에서 답변을 거꾸로 참조)
 
 
 class User(Base):
