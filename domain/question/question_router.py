@@ -15,8 +15,8 @@ router = APIRouter(
 
 # response_model = list[question_schema.Question] -> question_list 함수의 return 값은 Question 스키마로 구성된 리스트임을 의미
 @router.get('/list', response_model = question_schema.QuestionList) # URL = '/api/question/list'
-def question_list(db: Session = Depends(get_db), page: int = 0, size: int = 10):
-    total, _question_list = question_crud.get_question_list(db, skip = page * size, limit = size)
+def question_list(db: Session = Depends(get_db), page: int = 0, size: int = 10, keyword: str = ''):
+    total, _question_list = question_crud.get_question_list(db, skip = page * size, limit = size, keyword = keyword)
     return {
         'total': total,
         'question_list': _question_list
